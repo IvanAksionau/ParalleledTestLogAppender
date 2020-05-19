@@ -1,0 +1,33 @@
+Configuration:
+  status: WARN
+  name: 'log4j2 configuration'
+  packages: com.ivan.aks.core.logger.appender
+  properties:
+    property:
+      name: pattern
+      value: '%d [%t] %-5p %c - %m%n'
+  Appenders:
+    Console:
+      name: 'console'
+      PatternLayout:
+        Pattern: ${pattern}
+    ParalleledTestLogAppender:
+      name: 'ParalleledTestLogAppender'
+      PatternLayout:
+        pattern: ${pattern}
+  Loggers:
+    logger:
+      - name: 'org.springframework'
+        level: WARN
+        additivity: false
+      - name: 'com.ivan.aks.core.logger.http.requester.log.TextHttpLogger'
+        level: INFO
+        AppenderRef:
+          - ref: 'console'
+          - ref: 'ParalleledTestLogAppender'
+        additivity: false
+    Root:
+      level: INFO
+      AppenderRef:
+        - ref: 'console'
+        - ref: 'ParalleledTestLogAppender'
